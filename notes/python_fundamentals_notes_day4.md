@@ -54,3 +54,49 @@
 - **OS Module** - Allowing interacting with operating systems to create/remove directories as well as seeing what exists.
 - **GetPass/GetUser Module** - To ask the user for the password without echoing it.
 - **GitHub API** - Better management with creating, deleting, and listing GitHub repos.
+
+
+
+# Scripting
+There are seven modules that we can consider "core" in Python.
+
+```python
+import sys
+import os
+import math
+import subprocess
+import random
+import datetime
+import json
+
+
+# sys
+
+print(sys.version)
+
+# os
+
+print(os.getcwd())
+
+
+# subprocess
+
+subprocess.run(["python", "hello_world.py"]) # Runs other programs in dir
+
+# math
+
+print(math.pi)
+print(math.sqrt(2))
+
+# random
+
+r = random.randint(0, 100)
+
+print(f"{r}%")
+
+# datetime
+
+print(datetime.datetime.now())
+
+# json
+```
