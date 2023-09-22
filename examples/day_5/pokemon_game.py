@@ -1,5 +1,6 @@
 import requests
 import random
+import time
 
 
 def move_multiplier(attacker, defender):
@@ -470,13 +471,13 @@ def attacking_turn(player1, player1_hp, player2_hp):
                 attack_dmg = attack_move['power'] * move_multiplier(attack_move['type'], user_pokemon_info[1])
                 print(move_effectiveness(move_multiplier(attack_move['type'], user_pokemon_info[1])))
                 player2_hp -= attack_dmg
-                print(f"{ai_pokemon} does {attack_dmg}!")
+                print(f"{ai_pokemon} does {attack_dmg} dmg!")
                 if player2_hp <= 0:
                     print(f"{user_pokemon} has fainted")
                     game = False
                     continue
                 else:
-                    print(f"{user_pokemon} is on {player2_hp}")
+                    print(f"{user_pokemon} is on {player2_hp} hp")
             for index1 in user_available_moves:
                 print(f"{user_available_moves.index(index1) + 1}. {user_available_moves[user_available_moves.index(index1)]['name'].capitalize()},       Type: {user_available_moves[user_available_moves.index(index1)]['type'].capitalize()},     Power: {user_available_moves[user_available_moves.index(index1)]['power']},        Accuracy: {user_available_moves[user_available_moves.index(index1)]['accuracy']}")
             user_move_options = [1, 2, 3, 4]
@@ -496,13 +497,13 @@ def attacking_turn(player1, player1_hp, player2_hp):
                 attack_dmg = attack_move['power'] * move_multiplier(attack_move['type'], user_pokemon_info[1])
                 print(move_effectiveness(move_multiplier(attack_move['type'], user_pokemon_info[1])))
                 player1_hp -= attack_dmg
-                print(f"{user_pokemon} does {attack_dmg}!")
+                print(f"{user_pokemon} does {attack_dmg} dmg!")
                 if player1_hp <= 0:
                     print(f"{ai_pokemon} has fainted")
                     game = False
                     continue
                 else:
-                    print(f"{ai_pokemon} is on {player1_hp}")
+                    print(f"{ai_pokemon} is on {player1_hp} hp")
     elif player1 == "user":
         print("User to start!")
         game = True
@@ -526,13 +527,13 @@ def attacking_turn(player1, player1_hp, player2_hp):
                 attack_dmg = attack_move['power'] * move_multiplier(attack_move['type'], user_pokemon_info[1])
                 print(move_effectiveness(move_multiplier(attack_move['type'], user_pokemon_info[1])))
                 player2_hp -= attack_dmg
-                print(f"{user_pokemon} does {attack_dmg}!")
+                print(f"{user_pokemon} does {attack_dmg} dmg!")
                 if player2_hp <= 0:
                     print(f"{ai_pokemon} has fainted, you win!")
                     game = False
                     continue
                 else:
-                    print(f"{ai_pokemon} is on {player2_hp}")
+                    print(f"{ai_pokemon} is on {player2_hp} hp")
             attack_move = random.choice(ai_available_moves)
             print(f"{ai_pokemon.capitalize()} used {attack_move['name']}!")
             hit_chance = random.randint(0, 100)
@@ -561,8 +562,14 @@ for index in range(0, 151):
     pokemon_names.append(pokemon_data[index]["name"])
 #     print(pokemon_names[index])
 
-
+print("Hello traveller, welcome to Sparta Gym, here you will have your chance to get your Global badge!!")
+print("**Pause for dramatic effect**")
+time.sleep(5)
+print("Found below are the Pokemon from the Kanto Region, please choose your contender")
+time.sleep(1)
 print(f"Pokemon to choose from: {pokemon_names}")
+print("Enter below the name of the pokemon you wish to choose!")
+print("Or enter 'random' for a random Pokemon, only do this if you feel lucky!")
 
 user_choosing = True
 while user_choosing:
@@ -570,32 +577,41 @@ while user_choosing:
     user_pokemon = user_input.lower()
     if user_pokemon in pokemon_names:
         user_choosing = False
+    elif user_pokemon == "random":
+        user_pokemon = random.choice(pokemon_names)
+        user_choosing = False
     else:
-        print("Invalid, please try again")
+        print("Invalid, please choose either a name above or 'random'")
 
 ai_pokemon = random.choice(pokemon_names)
 
 user_pokemon_info = pokemon_stats(user_pokemon)
 print(user_pokemon_info)
-
 ai_pokemon_info = pokemon_stats(ai_pokemon)
 print(ai_pokemon_info)
+time.sleep(1)
+print("Welcome to pokemon battle!")
+print(f"*user* {user_pokemon} I choose you!")
+print("  -----  ")
+print(" /     \ ")
+print("|       |")
+print("|---O---|")
+print("|       |")
+print(" \     / ")
+print("  -----  ")
+time.sleep(1)
+print(f"*Ai* {ai_pokemon} I choose you!")
+print("  -----  ")
+print(" /     \ ")
+print("|       |")
+print("|---O---|")
+print("|       |")
+print(" \     / ")
+print("  -----  ")
 
+
+# Deciding who starts first
 start_turn = move_order(user_pokemon_info[5], ai_pokemon_info[5])
-
-# if start_turn == "user_first":
-#     print("You're attacking first, choose a move: ")
-#     print(move_options(user_pokemon))
-#     available_moves = move_options(user_pokemon)
-#     for index in available_moves:
-#         print(f"{available_moves.index(index) + 1}. {available_moves[available_moves.index(index)]['name'].capitalize()},       Type: {available_moves[available_moves.index(index)]['type'].capitalize()},     Power: {available_moves[available_moves.index(index)]['power']},        Accuracy: {available_moves[available_moves.index(index)]['accuracy']}")
-#
-# elif start_turn == "ai_first":
-#     print("AI is attacking first, choose a move: ")
-#     print(move_options(ai_pokemon))
-#     available_moves = move_options(ai_pokemon)
-#     for index in available_moves:
-#         print(f"{available_moves.index(index) + 1}. {available_moves[available_moves.index(index)]['name'].capitalize()}, Type: {available_moves[available_moves.index(index)]['type'].capitalize()}, Power: {available_moves[available_moves.index(index)]['power']}, Accuracy: {available_moves[available_moves.index(index)]['accuracy']}")
 
 if start_turn == "user_first":
     first_pokemon_info = user_pokemon_info
@@ -615,32 +631,10 @@ elif start_turn == "ai_first":
     second_pokemon = user_pokemon
     player2 = "user"
 
-player1_hp = first_pokemon_info[2] * (1 + (first_pokemon_info[4] / 600)) * 10 # Round to whole number
-print(f"{player1} hp: {player1_hp}")
-player2_hp = second_pokemon_info[2] * (1 + (second_pokemon_info[4] / 600)) * 10
-print(f"{player2} hp: {player2_hp}")
+player1_hp = round(first_pokemon_info[2] * (1 + (first_pokemon_info[4] / 600)) * 10) # Round to whole number
+print(f"{first_pokemon}'s hp: {player1_hp}")
+player2_hp = round(second_pokemon_info[2] * (1 + (second_pokemon_info[4] / 600)) * 10)
+print(f"{second_pokemon}'s hp: {player2_hp}")
 
 attacking_turn(player1, player1_hp, player2_hp)
 
-# user_pokemon_request = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon_names.index(user_pokemon) + 1}")
-# user_pokemon_content = user_pokemon_request.json()
-# user_pokemon_stats = user_pokemon_content["types"][0]["type"]["name"]
-# print(f"Your pokemon: {user_pokemon}, type: {user_pokemon_stats}")
-# user_pokemon_speed = user_pokemon_content["stats"][5]["base_stat"]
-# print(user_pokemon_speed)
-
-# ai_pokemon_request = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon_names.index(ai_pokemon) + 1}")
-# ai_pokemon_content = ai_pokemon_request.json()
-# ai_pokemon_stats = ai_pokemon_content["types"][0]["type"]["name"]
-# print(f"Ai Pokemon: {ai_pokemon}, type {ai_pokemon_stats}")
-
-# move_order = random.randint(0, 1)
-# if move_order == 0:
-#     print("You attacked first:")
-#     end_condition(user_pokemon_stats, ai_pokemon_stats)
-# elif move_order == 1:
-#     print("Ai attacked first:")
-#     end_condition(ai_pokemon_stats, user_pokemon_stats)
-
-# "stats":[{"base_stat":60,"effort":0,"stat":{"name":"hp","url":"https://pokeapi.co/api/v2/stat/1/"}},{"base_stat":62,"effort":0,"stat":{"name":"attack","url":"https://pokeapi.co/api/v2/stat/2/"}},{"base_stat":63,"effort":0,"stat":{"name":"defense","url":"https://pokeapi.co/api/v2/stat/3/"}},{"base_stat":80,"effort":1,"stat":{"name":"special-attack","url":"https://pokeapi.co/api/v2/stat/4/"}},{"base_stat":80,"effort":1,"stat":{"name":"special-defense","url":"https://pokeapi.co/api/v2/stat/5/"}},{"base_stat":60,"effort":0,"stat":{"name":"speed","url":"https://pokeapi.co/api/v2/stat/6/"}}]
-# print(pokemon_data)
