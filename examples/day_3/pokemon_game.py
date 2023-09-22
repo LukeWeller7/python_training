@@ -1,5 +1,3 @@
-from typing import List, Dict, Any
-
 import requests
 import random
 
