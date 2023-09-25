@@ -1,6 +1,10 @@
 import requests
 import random
 import time
+import os
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+import PIL
 
 
 def move_multiplier(attacker, defender):
@@ -352,7 +356,7 @@ def move_multiplier(attacker, defender):
     return multiplier
 
 
-def move_effectiveness(multiplier): # include types to specify what types are effective against each other
+def move_effectiveness(multiplier):  # include types to specify what types are effective against each other
     if multiplier == 2:
         return "This move is super effective, you deal double damage"
     elif multiplier == 1:
@@ -416,7 +420,7 @@ def move_options(pokemon_name):
 
     moves = []
     total = 0
-    while total !=4:
+    while total != 4:
         move_selection = random.randint(0, len(pokemon_content["moves"]) - 1)
         if move_selection in moves:
             total = total
@@ -479,7 +483,8 @@ def attacking_turn(player1, player1_hp, player2_hp):
                 else:
                     print(f"{user_pokemon} is on {player2_hp} hp")
             for index1 in user_available_moves:
-                print(f"{user_available_moves.index(index1) + 1}. {user_available_moves[user_available_moves.index(index1)]['name'].capitalize()},       Type: {user_available_moves[user_available_moves.index(index1)]['type'].capitalize()},     Power: {user_available_moves[user_available_moves.index(index1)]['power']},        Accuracy: {user_available_moves[user_available_moves.index(index1)]['accuracy']}")
+                print(
+                    f"{user_available_moves.index(index1) + 1}. {user_available_moves[user_available_moves.index(index1)]['name'].capitalize()},       Type: {user_available_moves[user_available_moves.index(index1)]['type'].capitalize()},     Power: {user_available_moves[user_available_moves.index(index1)]['power']},        Accuracy: {user_available_moves[user_available_moves.index(index1)]['accuracy']}")
             user_move_options = [1, 2, 3, 4]
             user_selection = True
             while user_selection:
@@ -509,7 +514,8 @@ def attacking_turn(player1, player1_hp, player2_hp):
         game = True
         while game:
             for index1 in user_available_moves:
-                print(f"{user_available_moves.index(index1) + 1}. {user_available_moves[user_available_moves.index(index1)]['name'].capitalize()},       Type: {user_available_moves[user_available_moves.index(index1)]['type'].capitalize()},     Power: {user_available_moves[user_available_moves.index(index1)]['power']},        Accuracy: {user_available_moves[user_available_moves.index(index1)]['accuracy']}")
+                print(
+                    f"{user_available_moves.index(index1) + 1}. {user_available_moves[user_available_moves.index(index1)]['name'].capitalize()},       Type: {user_available_moves[user_available_moves.index(index1)]['type'].capitalize()},     Power: {user_available_moves[user_available_moves.index(index1)]['power']},        Accuracy: {user_available_moves[user_available_moves.index(index1)]['accuracy']}")
             user_move_options = [1, 2, 3, 4]
             user_selection = True
             while user_selection:
@@ -552,6 +558,59 @@ def attacking_turn(player1, player1_hp, player2_hp):
                     print(f"{user_pokemon} is on {player1_hp}")
 
 
+def pokemon_sprite(pokemon):  # Broken need fixing
+    pokemon_request = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon_names.index(pokemon) + 1}")
+    pokemon_data = pokemon_request.json()
+    sprite_url = pokemon_data["sprites"]["front_default"]
+
+    print(sprite_url)
+
+    image_response = requests.get(sprite_url)
+    image = image_response.content
+    fp = open(f"{pokemon_names.index(pokemon) + 1}.png", 'wb')
+    fp.write(image_response.content)
+    fp.close()
+    sprite = os.listdir("C:/Users/lukew/PycharmProjects/DevOps_Training/python_fundamentals/examples/day_5")
+    img = PIL.Image.open(
+        f"C:/Users/lukew/PycharmProjects/DevOps_Training/python_fundamentals/examples/day_5/{pokemon_names.index(pokemon) + 1}.png")
+
+    width, height = img.size
+    aspect_ratio = height / width
+    new_width = 120
+    new_height = aspect_ratio * new_width * (0.55*0.75)
+    img = img.resize((new_width, int(new_height)))
+
+    img = img.convert('L')
+
+    # chars = ["T", "⠈", "⣠", "⣿", "⣷", "⣤", "⣶", "⡄", "⡟", "⠉", "⡀"]
+    chars = ["@", "J", "D", "%", "*", "P", "+", "Y", "$", ",", "."]
+
+
+    pixels = img.getdata()
+    new_pixels = [chars[pixel // 25] for pixel in pixels]
+    new_pixels = ''.join(new_pixels)
+    new_pixels_count = len(new_pixels)
+    ascii_image = [new_pixels[index:index + new_width] for index in range(0, new_pixels_count, new_width)]
+    ascii_image = "\n".join(ascii_image)
+
+    with open("ascii_image.txt", "w") as f:
+        f.write(ascii_image)
+
+    sprite_image = open("ascii_image.txt", "r").read()
+    sprite_image = sprite_image.replace('@', ' ')
+    return sprite_image
+
+    '''
+    print(sprite[0])
+    img = mpimg.imread('133.png')
+    return ascii(sprite[0])
+    # plt.imshow(img)
+    # plt.show
+    # sprite_test = os.startfile(f"C:/Users/lukew/PycharmProjects/DevOps_Training/python_fundamentals/examples/day_5/{pokemon_names.index(pokemon) + 1}.png", 'open')
+    # print(f"{pokemon_names.index(pokemon) + 1}.png")
+    '''
+
+
 request_pokemon = requests.get("https://pokeapi.co/api/v2/pokemon-species/?limit=151")
 pokemon_content = request_pokemon.json()
 # print(pokemon_content)
@@ -562,14 +621,17 @@ for index in range(0, 151):
     pokemon_names.append(pokemon_data[index]["name"])
 #     print(pokemon_names[index])
 
-print("Hello traveller, welcome to Sparta Gym, here you will have your chance to get your Global badge!!")
-print("**Pause for dramatic effect**")
-time.sleep(5)
-print("Found below are the Pokemon from the Kanto Region, please choose your contender")
-time.sleep(1)
-print(f"Pokemon to choose from: {pokemon_names}")
-print("Enter below the name of the pokemon you wish to choose!")
-print("Or enter 'random' for a random Pokemon, only do this if you feel lucky!")
+# print("Hello traveller, welcome to Sparta Gym, here you will have your chance to get your Global badge!!")
+# time.sleep(5)
+# print("**Pause for dramatic effect**")
+# time.sleep(5)
+# print("Found below are the Pokemon from the Kanto Region, please choose your contender")
+# time.sleep(5)
+# print(f"Pokemon to choose from: {pokemon_names}")
+# time.sleep(5)
+# print("Enter below the name of the pokemon you wish to choose!")
+# time.sleep(1)
+# print("Or enter 'random' for a random Pokemon, only do this if you feel lucky!")
 
 user_choosing = True
 while user_choosing:
@@ -599,6 +661,7 @@ print("|---O---|")
 print("|       |")
 print(" \     / ")
 print("  -----  ")
+print(pokemon_sprite(user_pokemon))
 time.sleep(1)
 print(f"*Ai* {ai_pokemon} I choose you!")
 print("  -----  ")
@@ -608,7 +671,7 @@ print("|---O---|")
 print("|       |")
 print(" \     / ")
 print("  -----  ")
-
+print(pokemon_sprite(ai_pokemon))
 
 # Deciding who starts first
 start_turn = move_order(user_pokemon_info[5], ai_pokemon_info[5])
@@ -631,10 +694,9 @@ elif start_turn == "ai_first":
     second_pokemon = user_pokemon
     player2 = "user"
 
-player1_hp = round(first_pokemon_info[2] * (1 + (first_pokemon_info[4] / 600)) * 10) # Round to whole number
+player1_hp = round(first_pokemon_info[2] * (1 + (first_pokemon_info[4] / 600)) * 10)  # Round to whole number
 print(f"{first_pokemon}'s hp: {player1_hp}")
 player2_hp = round(second_pokemon_info[2] * (1 + (second_pokemon_info[4] / 600)) * 10)
 print(f"{second_pokemon}'s hp: {player2_hp}")
 
 attacking_turn(player1, player1_hp, player2_hp)
-
