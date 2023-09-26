@@ -14,7 +14,7 @@
 
 ### Flowchart Digram showing how APIs work
 
-![](C:\Users\lukew\PycharmProjects\DevOps_Training\python_fundamentals\notes\flowchart_API.png)
+![](images\flowchart_API.png)
 Diagram 1. Flowchart showing the process of API request.
 
 Diagram 1. above shows a flowchart of how an API works for a user requesting data from a server. First the client send a request to the API stating where to find the database and what information to get. The API processes the request, checking it's validity. If invalid, an error will return to User. If not, the API with communicate with the server, which then retrieves the data from it's database. This information is sent back to the User/Client and an API Response is given.

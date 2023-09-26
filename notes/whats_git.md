@@ -2,7 +2,7 @@
 
 Git is a form of VCS (Version Control System), it differs from other VCS through it's process of working with data. Conceptually, Git works through what is known as snapshots, unlike other VCS where all changes to files through versions are each stored as base files. Git sees the data as a series of snapshots, where whenever you commit a save to Git, it takes a snapshot of what the files look like in that instance and stores it as a snapshot. Git doesn't copy over files that obtain no changes between versions, instead pulling forward that file from previous snapshot, this is shown in the diagram below.
 
-![](C:\Users\lukew\OneDrive\Documents\Sparta\Git_Snapshots.png)
+![](images\Git_Snapshots.png)
 Figure 1. Storing data through Git system of snapshots.
 
 ### Localisation 
@@ -16,7 +16,7 @@ Git works in a local system meaning you don't need to access an online repositor
 
 Files are always found in one of these three stages!
 
-![](C:\Users\lukew\OneDrive\Documents\Sparta\Git_Working_Tree.png)
+![](images\Git_Working_Tree.png)
 Figure 6. Working tree of the Git directory
 
 Figure 6. above shows the process of files within git, the working directory is files that you are working on, making changed. The staging area, where git knows the changes made and is ready to commit. .git directory / repo is where all the saved screenshots are found.

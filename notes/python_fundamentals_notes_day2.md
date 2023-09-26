@@ -93,11 +93,11 @@ for num in list_data:
         print("ERROR")
 ```
 # Diagram Breakdown of While Loops
-![](C:\Users\lukew\OneDrive\Documents\Sparta\While_loop_diagram.png)
+![](images\While_loop_diagram.png)
 # Diagram breakdown of For Loops
-![](C:\Users\lukew\OneDrive\Documents\Sparta\For_loop_diagram.png)
+![](images\For_loop_diagram.png)
 # Diagram breakdown for If, Elif, Else Statements
-![](C:\Users\lukew\OneDrive\Documents\Sparta\If_Statement_Diagram.png)
+![](images\If_Statement_Diagram.png)
 
 
 
